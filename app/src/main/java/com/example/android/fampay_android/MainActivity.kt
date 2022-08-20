@@ -51,21 +51,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             FampayAndroidTheme {
                 Scaffold(
-                    topBar = {
-                        TopAppBar(
-                            elevation = 0.dp,
-                            title = {
-                            Row {
-                                Spacer(modifier = Modifier.weight(1.0F))
-                                Text(text = "fampay", color = Color.Black)
-                                Image(
-                                    painter = painterResource(id = R.drawable.ic_fampay_logo),
-                                    contentDescription = null)
-                                Spacer(modifier = Modifier.weight(1.0F))
-                            }
-                        },
-                        )
-                    },
+                    topBar = { AppBar() },
                     content = ({
                         Surface(
                             modifier = Modifier.fillMaxSize(),
@@ -222,15 +208,15 @@ fun HC1(
 ) {
     Card(modifier = modifier
         .height(60.dp)
-        .fillMaxWidth()
-        .padding(horizontal = 20.dp)
+//        .fillMaxWidth()
+//        .padding(horizontal = 20.dp)
         .clickable(
             onClick = CTA
         ),
         backgroundColor = bgColor
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 15.dp),
+            modifier = Modifier.padding(horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
@@ -240,7 +226,7 @@ fun HC1(
                     .clip(CircleShape)
                     .size(40.dp)
             )
-            Spacer(modifier = Modifier.width(20.dp))
+            Spacer(modifier = Modifier.width(8.dp))
             Text(text = title, style = MaterialTheme.typography.body2.copy(fontWeight = FontWeight.SemiBold))
         }
     }
@@ -260,14 +246,29 @@ fun ResponseItem(response: Response) {
 
 @Composable
 fun CardGroupItem(cardGroup: CardGroup) {
-    LazyRow {
-        itemsIndexed(items = cardGroup.cards) { index, item ->
-            CardItem(
-                cards = item,
-                design_type = cardGroup.design_type
-            )
+    if (cardGroup.is_scrollable) {
+        LazyRow(
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            itemsIndexed(items = cardGroup.cards) { index, item ->
+                CardItem(
+                    cards = item,
+                    design_type = cardGroup.design_type
+                )
+            }
+        }
+    } else {
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            cardGroup.cards.forEach { card ->
+                CardItem(cards = card, design_type = cardGroup.design_type)
+            }
         }
     }
+
 }
 
 @Composable
@@ -330,38 +331,20 @@ fun CardItem(cards: Cards, design_type: String) {
 }
 
 @Composable
-fun FampayApp() {
-//    val context = LocalContext.current
-//    HC3(
-//        image = "https://westeros-staging.s3.amazonaws.com/media/images/generic/5e97239d1bd747878828852d4f397361.png",
-//        title = "Big Display Card with Action",
-//        description = "This is a sample text for the subtitle that you can add to contextual cards",
-//        aspectRatio = 0.9142857F,
-//        cardCTA = {
-//            Toast.makeText(context, "Helloo", Toast.LENGTH_SHORT).show()
-//        },
-//        buttonCTA = {}
-//        )
-//    HC6(
-//        image = "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/128x128/plain/shape_square.png",
-//        title = "Small card with arrow",
-//        CTA = {}
-//    )
-//    HC5(
-//        image = "https://westeros-staging.s3.amazonaws.com/media/images/generic/a612b3e534ba4ca389293a2b92c7ba25.jpeg",
-//        CTA = {}
-//    )
-//    HC9(
-//        image = "https://westeros-staging.s3.amazonaws.com/media/images/generic/718171493a944663a167a71c11c5e10a.png",
-//        aspectRatio = 0.84F,
-//        CTA = {}
-//    )
-//    HC1(
-//        image = "https://westeros-staging.s3.amazonaws.com/media/images/generic/4ce76db9e755497f8d176764b6d590ba.png",
-//        title = "Small display card",
-//        bgColor = Color.White,
-//        CTA = {}
-//    )
+fun AppBar() {
+    TopAppBar(
+        elevation = 0.dp,
+        title = {
+            Row {
+                Spacer(modifier = Modifier.weight(1.0F))
+                Text(text = "fampay", color = Color.Black)
+                Image(
+                    painter = painterResource(id = R.drawable.ic_fampay_logo),
+                    contentDescription = null)
+                Spacer(modifier = Modifier.weight(1.0F))
+            }
+        },
+    )
 }
 
 
@@ -419,12 +402,6 @@ fun HC1Preview() {
         bgColor = Color.White,
         CTA = {}
     )
-}
-
-@Preview(widthDp = 360, heightDp = 640)
-@Composable
-fun FampayAppPreview() {
-    FampayApp()
 }
 
 @Composable

@@ -8,8 +8,13 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -21,12 +26,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Forward
 import androidx.compose.material.icons.outlined.NavigateNext
 import androidx.compose.material.icons.outlined.SkipNext
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -75,6 +80,7 @@ fun HC3(
     title: String,
     description: String,
     aspectRatio: Float,
+    buttonText: String,
     cardCTA: () -> Unit,
     buttonCTA: () -> Unit,
     modifier: Modifier = Modifier,
@@ -88,29 +94,33 @@ fun HC3(
         ),
         shape = RoundedCornerShape(12.dp),
     ) {
-        AsyncImage(
-            model = image,
-            contentDescription = null,
-            modifier = Modifier.aspectRatio(aspectRatio)
-        )
-        Column(
-            verticalArrangement = Arrangement.Bottom,
-            modifier = Modifier.padding(start = 33.dp, end = 33.dp)
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold)
-            )
-            Spacer(modifier = Modifier.height(28.dp))
-            Text(text = description)
-            Button(
-                modifier = Modifier.padding(top = 20.dp, bottom = 12.dp),
-                onClick = buttonCTA,
-                content = {
-                    Text("Action")
+                AsyncImage(
+                    model = image,
+                    contentDescription = null,
+                    modifier = Modifier.aspectRatio(aspectRatio).fillMaxHeight()
+                )
+                Column(
+                    verticalArrangement = Arrangement.Bottom,
+                    modifier = Modifier.padding(start = 33.dp, end = 33.dp)
+                ) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold)
+                    )
+                    Spacer(modifier = Modifier.height(28.dp))
+                    Text(text = description)
+                    Button(
+                        modifier = Modifier.padding(top = 20.dp, bottom = 12.dp),
+                        onClick = buttonCTA,
+                        content = {
+                            Text(buttonText)
+                        }
+                    )
                 }
-            )
-        }
+
+
+
+
     }
 
 }
@@ -306,7 +316,8 @@ fun CardItem(cards: Cards, design_type: String) {
             buttonCTA = {
                 val intent  = Intent(Intent.ACTION_VIEW, Uri.parse(cards.cta[0].url))
                 context.startActivity(intent)
-            }
+            },
+            buttonText = cards.cta[0].text
         )
 
         "HC5" -> HC5(
@@ -360,7 +371,8 @@ fun HC3Preview() {
         cardCTA = {
             Toast.makeText(context, "Helloo", Toast.LENGTH_SHORT).show()
         },
-        buttonCTA = {}
+        buttonCTA = {},
+        buttonText = "Action"
     )
 }
 

@@ -11,7 +11,9 @@ Develop a standalone container, that displays a list of Contextual Cards. A Cont
 - Clone the project using `git clone https://github.com/Chirayu123dot/Fampay-Assignment-Android`
 - Run it on a physical device or an emulator
 
-
+## APK
+https://github.com/Chirayu123dot/Fampay-Assignment-Android/blob/master/fampay-app.apk
+> Click on the download button
 
 ## Video demonstration
 https://user-images.githubusercontent.com/72456458/185765258-2634839b-d740-45bd-bc02-4c90f8227237.mp4

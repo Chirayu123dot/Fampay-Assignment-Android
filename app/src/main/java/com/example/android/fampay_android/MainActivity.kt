@@ -28,10 +28,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.android.fampay_android.ViewModels.MainViewModel
@@ -68,7 +70,7 @@ class MainActivity : ComponentActivity() {
                         Surface(
                             modifier = Modifier.fillMaxSize(),
                             color = MaterialTheme.colors.background,
-                            shape = RoundedCornerShape(6.dp)
+                            shape = RoundedCornerShape(6.dp),
                         ) {
                             ResponseItem(response = mainViewModel.response)
                             mainViewModel.getResponse()
@@ -137,6 +139,7 @@ fun HC6(
     Card(
         modifier = modifier
             .height(60.dp)
+            .width(LocalConfiguration.current.screenWidthDp.dp)
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
             .clickable(onClick = CTA),
@@ -156,9 +159,9 @@ fun HC6(
             Spacer(modifier = Modifier.width(15.dp))
             Text(
                 text = title,
-                modifier = Modifier.weight(1.0F),
                 style = MaterialTheme.typography.body2.copy(fontWeight = FontWeight.SemiBold)
             )
+            Spacer(modifier = Modifier.weight(1F))
             Icon(
                 imageVector = Icons.Outlined.NavigateNext,
                 contentDescription = null,
@@ -238,14 +241,16 @@ fun HC1(
                     .size(40.dp)
             )
             Spacer(modifier = Modifier.width(20.dp))
-            Text(text = title)
+            Text(text = title, style = MaterialTheme.typography.body2.copy(fontWeight = FontWeight.SemiBold))
         }
     }
 }
 
 @Composable
 fun ResponseItem(response: Response) {
-    LazyColumn(verticalArrangement = Arrangement.spacedBy(15.dp)
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(15.dp),
+        contentPadding = PaddingValues(vertical = 24.dp)
     ) {
         itemsIndexed(items = response.card_groups) { index, item ->
             CardGroupItem(cardGroup = item)
@@ -267,13 +272,12 @@ fun CardGroupItem(cardGroup: CardGroup) {
 
 @Composable
 fun CardItem(cards: Cards, design_type: String) {
-
     val context = LocalContext.current
-    //val intent = remember { Intent(Intent.ACTION_VIEW, Uri.parse("")) }
+
     when (design_type) {
         "HC6" -> HC6(
             image = cards.icon.image_url,
-            title = cards.description,
+            title = cards.title,
             CTA = {
                 val intent  = Intent(Intent.ACTION_VIEW, Uri.parse(cards.url))
                 context.startActivity(intent)

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -28,6 +29,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,13 +48,38 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FampayAndroidTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    ResponseItem(response = mainViewModel.response)
-                    mainViewModel.getResponse()
-                }
+                Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = {
+                            Row {
+                                Spacer(modifier = Modifier.weight(1.0F))
+                                Text(text = "fampay")
+                                Image(
+                                    painter = painterResource(id = R.drawable.ic_fampay_logo),
+                                    contentDescription = null)
+                                Spacer(modifier = Modifier.weight(1.0F))
+                            }
+                        },
+                        )
+                    },
+                    content = ({
+                        Surface(
+                            modifier = Modifier.fillMaxSize(),
+                            color = MaterialTheme.colors.background
+                        ) {
+                            ResponseItem(response = mainViewModel.response)
+                            mainViewModel.getResponse()
+                        }
+                    })
+                )
+//                Surface(
+//                    modifier = Modifier.fillMaxSize(),
+//                    color = MaterialTheme.colors.background
+//                ) {
+//                    ResponseItem(response = mainViewModel.response)
+//                    mainViewModel.getResponse()
+//                }
             }
 //            HC6(
 //                image = "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/128x128/plain/shape_square.png",

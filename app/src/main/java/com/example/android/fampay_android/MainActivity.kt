@@ -51,10 +51,11 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
+                            elevation = 0.dp,
                             title = {
                             Row {
                                 Spacer(modifier = Modifier.weight(1.0F))
-                                Text(text = "fampay")
+                                Text(text = "fampay", color = Color.Black)
                                 Image(
                                     painter = painterResource(id = R.drawable.ic_fampay_logo),
                                     contentDescription = null)
@@ -66,27 +67,16 @@ class MainActivity : ComponentActivity() {
                     content = ({
                         Surface(
                             modifier = Modifier.fillMaxSize(),
-                            color = MaterialTheme.colors.background
+                            color = MaterialTheme.colors.background,
+                            shape = RoundedCornerShape(6.dp)
                         ) {
                             ResponseItem(response = mainViewModel.response)
                             mainViewModel.getResponse()
                         }
                     })
                 )
-//                Surface(
-//                    modifier = Modifier.fillMaxSize(),
-//                    color = MaterialTheme.colors.background
-//                ) {
-//                    ResponseItem(response = mainViewModel.response)
-//                    mainViewModel.getResponse()
-//                }
+
             }
-//            HC6(
-//                image = "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/128x128/plain/shape_square.png",
-//                title = "Setup your UPI ID",
-//                CTA = { /*TODO*/ }
-//            )
-//            FampayApp()
         }
     }
 }

@@ -2,7 +2,8 @@
 
 ## What is server-driven UI? 🤔
 Server-driven UI is a development technique in which the major UI components of a mobile application are fetched from the server via API calls and dynamically rendered in the application when the user opens the app. It helps in updating the native user interface in already deployed mobile applications, without any interference from the user (like updating the app from playstore/appstore).
-This opens up new possibilities and addresses some fundamental challenges with native mobile app development.
+This opens up new possibilities and addresses some fundamental challenges with native mobile app development.<br><br>
+This application builds a simple front-end dynamically based on the API response from the server. The entire frontend is built dynamically, and can be changed by changing the API response
 
 ## About the Application 📱
 This application was made as an internship assignment for [Fampay](https://fampay.in/)
